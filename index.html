@@ -357,8 +357,33 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
 function submitRSVP(e){
   e.preventDefault();
-  document.getElementById('rsvpForm').style.display='none';
-  document.getElementById('rsvpThanks').style.display='block';
+  const form = document.getElementById('rsvpForm');
+  const btn = form.querySelector('.rsvp-btn');
+  btn.textContent = 'Envoi en cours…';
+  btn.disabled = true;
+
+  const data = {
+    prenom:      form.querySelector('[name="prenom"]').value,
+    nom:         form.querySelector('[name="nom"]').value,
+    telephone:   form.querySelector('[name="telephone"]').value,
+    nb_personnes:form.querySelector('[name="nb_personnes"]').value,
+    presence:    form.querySelector('[name="presence"]:checked')?.value || '',
+    message:     form.querySelector('[name="message"]').value,
+    date:        new Date().toLocaleString('fr-FR')
+  };
+
+  fetch('https://script.google.com/macros/s/AKfycbySNVaqceBDvb0d550WV9dUsPkWQ7mlv7vjkk9Pkn18gidi81qxLg-RGLxCJFO0vgIZ/exec', {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  }).then(() => {
+    form.style.display = 'none';
+    document.getElementById('rsvpThanks').style.display = 'block';
+  }).catch(() => {
+    form.style.display = 'none';
+    document.getElementById('rsvpThanks').style.display = 'block';
+  });
 }
 </script>
 </body>
