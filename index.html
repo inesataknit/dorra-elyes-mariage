@@ -365,9 +365,8 @@ function submitRSVP(e){
   const data = {
     prenom:      form.querySelector('[name="prenom"]').value,
     nom:         form.querySelector('[name="nom"]').value,
-    telephone:   form.querySelector('[name="telephone"]').value,
-    nb_personnes:form.querySelector('[name="nb_personnes"]').value,
     presence:    form.querySelector('[name="presence"]:checked')?.value || '',
+    nb_personnes:form.querySelector('[name="nb_personnes"]').value,
     message:     form.querySelector('[name="message"]').value,
     date:        new Date().toLocaleString('fr-FR')
   };
