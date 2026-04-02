@@ -312,28 +312,18 @@ footer::before{content:'';position:absolute;inset:0;background-image:url("data:i
     <div class="rule"></div>
     <p class="rsvp-sub">Merci de confirmer votre présence avant le 1er août 2026</p>
 
-    <form class="rsvp-form" id="rsvpForm"
-          action="https://formspree.io/f/mnjobbnz"
-          method="POST">
-      <input type="hidden" name="_subject" value="Nouvelle confirmation · Mariage Dorra & Elyes">
-      <input type="hidden" name="_next" value="#rsvp">
-      <div class="rsvp-row">
-        <input type="text" name="prenom" placeholder="Prénom" required>
-        <input type="text" name="nom" placeholder="Nom" required>
-      </div>
-      <input type="tel" name="telephone" placeholder="Numéro de téléphone">
-      <input type="number" name="nb_personnes" placeholder="Nombre de personnes" min="1" max="20">
-      <div class="att-row">
-        <label><input type="radio" name="presence" value="Avec joie" required> Avec joie ✓</label>
-        <label><input type="radio" name="presence" value="Absent(e)"> Absent(e)</label>
-      </div>
-      <textarea name="message" placeholder="Un petit mot pour les mariés… (optionnel)"></textarea>
-      <button type="submit" class="rsvp-btn">Confirmer ma présence</button>
-    </form>
-    <p class="rsvp-thanks" id="rsvpThanks">
-      Merci ! Votre confirmation a bien été enregistrée.<br>
-      À très bientôt 🤍
-    </p>
+    <div style="max-width:580px;margin:0 auto;border:1px solid rgba(154,115,64,.2);overflow:hidden;">
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSc_B7tEhWTdptO8kI85OfjLxjEIZ_mdC29P7nJwXcfUYsefmg/viewform?embedded=true"
+        width="100%"
+        height="620"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        style="display:block;background:#fdf8f0;">
+        Chargement…
+      </iframe>
+    </div>
   </div>
 </section>
 
@@ -352,32 +342,7 @@ const io = new IntersectionObserver(entries=>{
 },{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-document.getElementById('rsvpForm').addEventListener('submit', async function(e){
-  e.preventDefault();
-  const form = e.target;
-  const btn = form.querySelector('.rsvp-btn');
-  btn.textContent = 'Envoi en cours…';
-  btn.disabled = true;
-  try {
-    const res = await fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
-    });
-    if (res.ok) {
-      form.style.display = 'none';
-      document.getElementById('rsvpThanks').style.display = 'block';
-    } else {
-      btn.textContent = 'Réessayer';
-      btn.disabled = false;
-      alert('Une erreur est survenue. Merci de réessayer.');
-    }
-  } catch {
-    btn.textContent = 'Réessayer';
-    btn.disabled = false;
-    alert('Vérifiez votre connexion et réessayez.');
-  }
-});
+// Google Form handles submissions directly
 </script>
 </body>
 </html>
