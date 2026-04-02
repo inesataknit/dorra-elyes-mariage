@@ -312,17 +312,37 @@ footer::before{content:'';position:absolute;inset:0;background-image:url("data:i
     <div class="rule"></div>
     <p class="rsvp-sub">Merci de confirmer votre présence avant le 1er août 2026</p>
 
-    <div style="max-width:580px;margin:0 auto;border:1px solid rgba(154,115,64,.2);overflow:hidden;">
-      <iframe
-        src="https://docs.google.com/forms/d/e/1FAIpQLSc_B7tEhWTdptO8kI85OfjLxjEIZ_mdC29P7nJwXcfUYsefmg/viewform?embedded=true"
-        width="100%"
-        height="620"
-        frameborder="0"
-        marginheight="0"
-        marginwidth="0"
-        style="display:block;background:#fdf8f0;">
-        Chargement…
-      </iframe>
+    <div style="max-width:500px;margin:0 auto;text-align:center;">
+
+      <!-- Attendance cards -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:2.5rem;">
+        <div style="border:1px solid rgba(154,115,64,.3);padding:1.8rem 1rem;background:rgba(253,248,240,.6);">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--gold-dark);margin-bottom:.4rem;">✓</div>
+          <p style="font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);">Je serai présent(e)</p>
+        </div>
+        <div style="border:1px solid rgba(154,115,64,.3);padding:1.8rem 1rem;background:rgba(253,248,240,.6);">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--text-muted);margin-bottom:.4rem;">✗</div>
+          <p style="font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);">Je serai absent(e)</p>
+        </div>
+      </div>
+
+      <p style="font-family:'EB Garamond',serif;font-style:italic;font-size:16px;color:var(--text-muted);margin-bottom:2rem;line-height:1.7;">
+        Cliquez sur le bouton ci-dessous pour confirmer<br>votre présence via notre formulaire
+      </p>
+
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSc_B7tEhWTdptO8kI85OfjLxjEIZ_mdC29P7nJwXcfUYsefmg/viewform"
+         target="_blank"
+         rel="noopener"
+         style="display:inline-block;background:transparent;border:1px solid var(--gold-dark);color:var(--gold-dark);font-family:'Jost',sans-serif;font-size:11px;font-weight:400;letter-spacing:.42em;text-transform:uppercase;padding:1.1rem 3rem;text-decoration:none;transition:all .3s;"
+         onmouseover="this.style.background='var(--gold-dark)';this.style.color='var(--cream)'"
+         onmouseout="this.style.background='transparent';this.style.color='var(--gold-dark)'">
+        Confirmer ma présence
+      </a>
+
+      <p style="font-family:'EB Garamond',serif;font-style:italic;font-size:13px;color:var(--text-muted);margin-top:1.5rem;opacity:.7;">
+        Le formulaire s'ouvrira dans un nouvel onglet
+      </p>
+
     </div>
   </div>
 </section>
