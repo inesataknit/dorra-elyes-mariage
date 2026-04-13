@@ -176,7 +176,7 @@ footer::before{content:'';position:absolute;inset:0;background-image:url("data:i
       Dorra
       <em class="hero-amp">& Elyes</em>
     </h1>
-    <p class="hero-date">Hacienda Event · Tunis · 21h00</p>
+    <p class="hero-date">Hacienda Event · Tunis · 20h00</p>
   </div>
   <div class="hero-scroll">
     <div class="scroll-line"></div>
@@ -206,7 +206,7 @@ footer::before{content:'';position:absolute;inset:0;background-image:url("data:i
     <div class="d-item reveal" style="transition-delay:.15s">
       <div class="d-icon">◈</div>
       <div class="d-lbl">Heure</div>
-      <div class="d-val">21h00</div>
+      <div class="d-val">20h00</div>
       <div class="d-sub">Soirée & fête</div>
     </div>
     <div class="d-item reveal" style="transition-delay:.3s">
@@ -310,32 +310,31 @@ footer::before{content:'';position:absolute;inset:0;background-image:url("data:i
     <p class="section-tag">Confirmation de présence</p>
     <h2>Serez-vous des nôtres ?</h2>
     <div class="rule"></div>
-    <p class="rsvp-sub">Merci de confirmer votre présence</p>
+    <p class="rsvp-sub">Merci de confirmer votre présence avant le 1er août 2026</p>
+    <p class="rsvp-sub" style="margin-top:-.5rem;font-size:15px;color:var(--gold-dark);font-style:normal;font-family:'Jost',sans-serif;font-weight:300;letter-spacing:.02em;">Pour des raisons de sécurité liées au lieu de réception, nous ne pourrons malheureusement pas accueillir les enfants. Merci pour votre compréhension</p>
 
-    <div style="max-width:500px;margin:0 auto;">
-
-      <form id="rsvpForm" class="rsvp-form" onsubmit="submitRSVP(event)">
-        <div class="rsvp-row">
-          <input type="text" name="prenom" placeholder="Prénom" required>
-          <input type="text" name="nom" placeholder="Nom" required>
-        </div>
-        <input type="number" name="nb_personnes" placeholder="Nombre de personnes" min="1" max="20">
-        <div class="att-row">
-          <label><input type="radio" name="presence" value="Avec joie" required> Avec joie ✓</label>
-          <label><input type="radio" name="presence" value="Absent(e)"> Absent(e)</label>
-        </div>
-        <textarea name="message" placeholder="Un petit mot pour les mariés… (optionnel)"></textarea>
-        <button type="submit" class="rsvp-btn">Confirmer ma présence</button>
-      </form>
-
-      <p class="rsvp-thanks" id="rsvpThanks">
-        Merci ! Votre confirmation a bien été enregistrée.<br>
-        À très bientôt 🤍
-      </p>
-
-    </div>
-
-    </div>
+    <form class="rsvp-form" id="rsvpForm"
+          action="https://formspree.io/f/VOTRE_ID_ICI"
+          method="POST">
+      <input type="hidden" name="_subject" value="Nouvelle confirmation · Mariage Dorra & Elyes">
+      <input type="hidden" name="_next" value="#rsvp">
+      <div class="rsvp-row">
+        <input type="text" name="prenom" placeholder="Prénom" required>
+        <input type="text" name="nom" placeholder="Nom" required>
+      </div>
+      <input type="tel" name="telephone" placeholder="Numéro de téléphone">
+      <input type="number" name="nb_personnes" placeholder="Nombre de personnes" min="1" max="20">
+      <div class="att-row">
+        <label><input type="radio" name="presence" value="Avec joie" required> Avec joie ✓</label>
+        <label><input type="radio" name="presence" value="Absent(e)"> Absent(e)</label>
+      </div>
+      <textarea name="message" placeholder="Un petit mot pour les mariés… (optionnel)"></textarea>
+      <button type="submit" class="rsvp-btn">Confirmer ma présence</button>
+    </form>
+    <p class="rsvp-thanks" id="rsvpThanks">
+      Merci ! Votre confirmation a bien été enregistrée.<br>
+      À très bientôt 🤍
+    </p>
   </div>
 </section>
 
@@ -354,35 +353,32 @@ const io = new IntersectionObserver(entries=>{
 },{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-function submitRSVP(e){
+document.getElementById('rsvpForm').addEventListener('submit', async function(e){
   e.preventDefault();
-  const form = document.getElementById('rsvpForm');
+  const form = e.target;
   const btn = form.querySelector('.rsvp-btn');
   btn.textContent = 'Envoi en cours…';
   btn.disabled = true;
-
-  const data = {
-    prenom:      form.querySelector('[name="prenom"]').value,
-    nom:         form.querySelector('[name="nom"]').value,
-    presence:    form.querySelector('[name="presence"]:checked')?.value || '',
-    nb_personnes:form.querySelector('[name="nb_personnes"]').value,
-    message:     form.querySelector('[name="message"]').value,
-    date:        new Date().toLocaleString('fr-FR')
-  };
-
-  fetch('https://script.google.com/macros/s/AKfycbySNVaqceBDvb0d550WV9dUsPkWQ7mlv7vjkk9Pkn18gidi81qxLg-RGLxCJFO0vgIZ/exec', {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  }).then(() => {
-    form.style.display = 'none';
-    document.getElementById('rsvpThanks').style.display = 'block';
-  }).catch(() => {
-    form.style.display = 'none';
-    document.getElementById('rsvpThanks').style.display = 'block';
-  });
-}
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      form.style.display = 'none';
+      document.getElementById('rsvpThanks').style.display = 'block';
+    } else {
+      btn.textContent = 'Réessayer';
+      btn.disabled = false;
+      alert('Une erreur est survenue. Merci de réessayer.');
+    }
+  } catch {
+    btn.textContent = 'Réessayer';
+    btn.disabled = false;
+    alert('Vérifiez votre connexion et réessayez.');
+  }
+});
 </script>
 </body>
 </html>
